@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Crear aviso para proveedores</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list lines="full">
+    <ion-item>
+      <ion-label position="stacked">Título del anuncio</ion-label>
+      <ion-input type="text" [(ngModel)]="titulo_anuncio"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Descripción del anuncio</ion-label>
+      <ion-textarea rows="5" [(ngModel)]="descrip_anuncio"></ion-textarea>
+    </ion-item>
+
+    
+    <ion-item>
+      <ion-label position="stacked">Salario ofrecido por usted para el proveedor de servicios</ion-label>
+      <ion-input type="number" [(ngModel)]="salario_ofrecidoporel_cliente" (input)="formatSalary($event)"></ion-input>
+    </ion-item>
+    
+
+    <ion-item>
+      <ion-label position="stacked">Selecccione su región</ion-label>
+      <ion-select [(ngModel)]="region" (ionChange)="onRegionChange()">
+        <ion-select-option value="region1">Región Metropolitana de Santiago</ion-select-option>
+        <ion-select-option value="region2">Región de Arica y Parinacota</ion-select-option>
+        <ion-select-option value="region3">Región de Tarapacá</ion-select-option>
+        <ion-select-option value="region4">Región de Antofagasta</ion-select-option>
+        <ion-select-option value="region5">Región de Atacama</ion-select-option>
+        <ion-select-option value="region6">Región de Coquimbo</ion-select-option>
+        <ion-select-option value="region7">Región de Valparaíso</ion-select-option>
+        <ion-select-option value="region8">Región del Libertador General Bernardo O'Higgins</ion-select-option>
+        <ion-select-option value="region9">Región del Maule</ion-select-option>
+        <ion-select-option value="region10">Región de Ñuble</ion-select-option>
+        <ion-select-option value="region11">Región del Biobío</ion-select-option>
+        <ion-select-option value="region12">Región de La Araucanía</ion-select-option>
+        <ion-select-option value="region13">Región de Los Ríos</ion-select-option>
+        <ion-select-option value="region14">Región de Los Lagos</ion-select-option>
+        <ion-select-option value="region15">Región de Aysén del General Carlos Ibáñez del Campo</ion-select-option>
+        <ion-select-option value="region16">Región de Magallanes y de la Antártica Chilena</ion-select-option>
+      </ion-select>
+    </ion-item>
+      <ion-item *ngIf="region">
+        <ion-label position="stacked">Comuna</ion-label>
+        <ion-select [(ngModel)]="comuna">
+          <ion-select-option *ngFor="let comunaOption of regiones[region]" [value]="comunaOption">{{ comunaOption }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+  </ion-list>
+  
+  <ion-button expand="block" (click)="guardarAviso()">Guardar Aviso</ion-button>
+  <ion-button expand="block" (click)="guardarAviso()">Cancelar</ion-button>
+</ion-content>
+

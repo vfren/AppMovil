@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-cliente-login',
@@ -8,26 +9,41 @@ import { Router } from '@angular/router';
 })
 export class ClienteLoginPage {
   correo_cli: string;
-  contra_cli: string;
+  contrasena_cli: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private alertController: AlertController) {
     this.correo_cli = '';
-    this.contra_cli = '';
+    this.contrasena_cli = '';
   }
 
   login() {
-    // Aquí deberías agregar la lógica de autenticación para el cliente
-    if (this.correo_cli === 'perez.juan1222@gmail.com' && this.contra_cli === 'juan123') {
-      // Si las credenciales son correctas, redirige al cliente a la página principal
-      this.router.navigate(['/home']);
+    console.log("Correo: ", this.correo_cli);
+    console.log("Contraseña: ", this.contrasena_cli);
+
+    //lógica de autenticación para el cliente
+    if (this.correo_cli === 'perez.juan1222@gmail.com' && this.contrasena_cli === 'juan123') {
+      // Si las credenciales son correctas, redirige al cliente
+      this.router.navigate(['/crear-aviso']);
     } else {
-      // Si las credenciales son incorrectas, muestra un mensaje de error o realiza otra acción
-      console.log('Credenciales incorrectas');
+      console.log("Credenciales incorrectas");
+      // Si las credenciales son incorrectas, muestra la alerta
+      this.presentAlert();
     }
   }
 
   forgotPassword() {
-    // Aquí puedes agregar la lógica para la recuperación de contraseña del cliente
+    //agregar la lógica para la recuperación de contraseña del cliente
     console.log('Olvidaste tu contraseña...');
   }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Error de inicio de sesión',
+      message: 'El correo electrónico o la contraseña son incorrectos.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
 }
+

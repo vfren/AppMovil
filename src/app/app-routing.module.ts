@@ -19,6 +19,18 @@ const routes: Routes = [
     path: 'proveedor-login',
     loadChildren: () => import('./proveedor-login/proveedor-login.module').then( m => m.ProveedorLoginPageModule)
   },
+  {
+    path: 'crear-aviso',
+    loadChildren: () => import('./crear-aviso/crear-aviso.module').then( m => m.CrearAvisoPageModule)
+  },
+  {
+    path: 'avisos-de-clientes',
+    loadChildren: () => import('./avisos-de-clientes/avisos-de-clientes.module').then( m => m.AvisosDeClientesPageModule)
+  },
+  {
+    path: 'crear-aviso-prove',
+    loadChildren: () => import('./crear-aviso-prove/crear-aviso-prove.module').then( m => m.CrearAvisoProvePageModule)
+  }
 ];
 
 @NgModule({

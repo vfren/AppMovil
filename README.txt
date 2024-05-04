@@ -1,1 +1,1 @@
-Comienzo de desarrollo de Logins
+Versión 1.1 : Formulario de anuncios terminados y logins funcionales
