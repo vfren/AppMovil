@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
+import { NavController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -7,26 +8,34 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 export class DatabaseService {
   databaseObj!: SQLiteObject;
 
-  constructor(private sqlite: SQLite) { }
+  constructor(private sqlite: SQLite) { 
+    this.createDatabase(); // Llamar a createDatabase() en el constructor
+  }
 
   async createDatabase() {
-    await this.sqlite.create({
-      name: "aplicaciondb",
-      location: "default",
-    }).then((db: SQLiteObject) => {
+    try {
+      const db = await this.sqlite.create({
+        name: "aplicaciondb",
+        location: "default",
+      });
       this.databaseObj = db;
-    }).catch((e) => {
-      alert("Error al crear la base de datos: " + JSON.stringify(e))
-    });
+      await this.createTables(); // Llamar a createTables() después de crear la base de datos
+    } catch (error) {
+      console.error("Error al crear la base de datos:", error);
+    }
   }
 
   async createTables() {
-    await this.createClienteTable();
-    await this.createAnuncioTable();
-    await this.createProveedorTable();
+    try {
+      await this.createClienteTable();
+      await this.createAnuncioTable();
+      await this.createProveedorTable();
+    } catch (error) {
+      console.error("Error al crear las tablas:", error);
+    }
   }
 
-  async createClienteTable() {
+async createClienteTable() {
     await this.databaseObj.executeSql(
       `CREATE TABLE IF NOT EXISTS cliente_table (
         id_cli INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -112,7 +121,6 @@ export class DatabaseService {
     });
   }
 
-  // Aquí puedes agregar métodos adicionales para interactuar con las tablas según tus necesidades
   async CrerAnuncio(
     descrip_anuncio: string,
     titulo_anuncio: string,
@@ -121,19 +129,22 @@ export class DatabaseService {
     pretension_renta_proveedor: number,
     salario_ofrecidoporel_cliente: number
   ) {
-    return this.databaseObj.executeSql(
-      `INSERT INTO anuncio_table (
-        titulo_anuncio, descrip_anuncio, rut_asociado_al_anuncio,
-        valoracion_prove, pretension_renta_proveedor, salario_ofrecidoporel_cliente
-      ) VALUES (?, ?, ?, ?, ?, ?)`,
-      [titulo_anuncio, descrip_anuncio, rut_asociado_al_anuncio,
-        valoracion_prove, pretension_renta_proveedor, salario_ofrecidoporel_cliente]
-    ).then(() => {
+    try {
+      if (!this.databaseObj) {
+        throw new Error("La base de datos no está inicializada");
+      }
+      await this.databaseObj.executeSql(
+        `INSERT INTO anuncio_table (
+          titulo_anuncio, descrip_anuncio, rut_asociado_al_anuncio,
+          valoracion_prove, pretension_renta_proveedor, salario_ofrecidoporel_cliente
+        ) VALUES (?, ?, ?, ?, ?, ?)`,
+        [titulo_anuncio, descrip_anuncio, rut_asociado_al_anuncio,
+          valoracion_prove, pretension_renta_proveedor, salario_ofrecidoporel_cliente]
+      );
       return "Anuncio agregado correctamente";
-    }).catch((error) => {
+    } catch (error) {
+      console.error("Error al agregar anuncio:", error);
       return "Error al agregar anuncio: " + JSON.stringify(error);
-    });
+    }
   }
-  
 }
-

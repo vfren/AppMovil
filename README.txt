@@ -1,1 +1,1 @@
-Versión 1.1 : Formulario de anuncios terminados y logins funcionales
+Version 1.2 (Comienzo de desarrollo Ventana de Publicaciones)

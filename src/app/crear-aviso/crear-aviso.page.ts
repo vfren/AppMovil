@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { DatabaseService } from '../database.service';
+
+
 
 @Component({
   selector: 'app-crear-aviso',
@@ -57,7 +60,7 @@ export class CrearAvisoPage {
               'Timaukel', 'Torres del Paine']
   };
 
-  constructor() {
+  constructor(private DatabaseService: DatabaseService, private navCtrl: NavController) {
     this.titulo_anuncio = '';
     this.descrip_anuncio = '';
     this.salario_ofrecidoporel_cliente = 0;
@@ -65,14 +68,23 @@ export class CrearAvisoPage {
     this.comuna = '';
   }
 
+
+  
   guardarAviso() {
-    //guardar los datos del aviso en la base de datos
-    console.log('Guardando aviso...');
-    console.log('Título:', this.titulo_anuncio);
-    console.log('Descripción:', this.descrip_anuncio);
-    console.log('Región:', this.region);
-    console.log('Comuna:', this.comuna);
+    // Guardar los datos del aviso en la base de datos
+    const salario = parseFloat(this.salario_ofrecidoporel_cliente.toString());
+    this.DatabaseService.CrerAnuncio(this.descrip_anuncio, this.titulo_anuncio, 'rut_del_cliente', 0, salario, 0)
+      .then((response) => {
+        console.log(response); // Muestra el mensaje de éxito en la consola
+        // Realiza cualquier acción adicional, como navegar a otra página
+        this.navCtrl.navigateForward('/avisos-de-clientes'); 
+      })
+      .catch((error) => {
+        console.error(error); // Muestra el mensaje de error en la consola
+        
+      });
   }
+  
 
   onRegionChange() {
     // realizar acciones adicionales cuando cambia la región, como cargar las comunas correspondientes

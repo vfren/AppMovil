@@ -20,7 +20,7 @@ export class ProveedorLoginPage {
     // agregar la lógica de autenticación para el proveedor
     if (this.correo_prov === 'ana.bel1212@gmail.com' && this.contrasena_prov === 'ana123') {
       // Si las credenciales son correctas, redirige al proveedor a la página principal
-      this.router.navigate(['/crear-aviso-prove']);
+      this.router.navigate(['/avisos-de-clientes']);
     } else {
       // Si las credenciales son incorrectas, muestra una alerta
       this.presentAlert();

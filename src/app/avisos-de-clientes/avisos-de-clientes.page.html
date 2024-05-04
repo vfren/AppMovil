@@ -1,13 +1,18 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>avisos-de-clientes</ion-title>
+    <ion-title>Anuncios de Clientes</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">avisos-de-clientes</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+
+    <ion-card *ngFor="let anuncio of anunciosClientes">
+      <ion-card-header>
+        <ion-card-title>{{ anuncio.titulo }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        {{ anuncio.descripcion }}
+      </ion-card-content>
+    </ion-card>
+
 </ion-content>
